@@ -1,8 +1,12 @@
 version: 0.2
 phases:
-  install:
+  build:
     commands:
-      - echo "installing dependecies.."
-      - pip install --upgrade awscli
-      - aws --version 
-      - docker info
+      - echo "build is starting.."
+      - zip -r mydeploy.zip lambda_function.py
+
+  post_build:
+    commands:
+      - echo "deploying the lambda zip file.."
+      - aws lambda update-function-code --function-name lambda_handler --zip-file fileb://mydeploy.zip
+
